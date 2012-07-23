@@ -14,6 +14,7 @@ int _main( const std::vector<CL_String> &args )
 {
 	Game *game = new Game();
 	game->run();
+
 	return 0;
 }
 

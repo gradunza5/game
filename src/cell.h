@@ -9,36 +9,43 @@
 #define CELL_H
 
 #include <ClanLib/display.h>
+#include <string.h>
+
+#define CELL_TYPE(x, r,g,b)	 {std::string(#x), CL_Colorf(r,g,b)} 
+
 
 class Cell
 {
 	public:
-		enum Type
+		typedef struct
 		{
-			Empty,
-			Wall
-		};
+			const std::string name;
+			const CL_Colorf color;
+		} cell_type;
+
+		static const cell_type Types[];
+		static const size_t num_cell_types;
 
 		/*
 		 * Cell(type=Empty)
 		 *
 		 * Create a Cell of the specified type
 		 */
-		Cell(Type type = Empty);
+		Cell(int id = 0);
 
 		/*
 		 * getId()
 		 *
 		 * Get the Type of this Cell
 		 */
-		Type getId() { return type; }
+		int getId() { return id; }
 
 		/*
-		 * setType(type)
+		 * setId(id)
 		 * 
 		 * Change the type of this cell
 		 */
-		void setType( Type type );
+		void setId( int id );
 
 		/*
 		 * draw(gc)
@@ -50,7 +57,7 @@ class Cell
 		/*
 		 * TODO: different method to determine appearance
 		 */
-		CL_Colorf getColor() { return color; }
+		CL_Colorf getColor() { return Cell::Types[id].color; }
 
 		/*
 		 * TODO: More functionality
@@ -59,10 +66,7 @@ class Cell
 
 	private:
 		// The type of this cell
-		Type type;
-
-		// TODO: different method to determine appearance
-		CL_Colorf color;
+		int id;
 };
 
 #endif

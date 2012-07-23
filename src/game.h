@@ -28,11 +28,16 @@ class Game
 		bool quit( );
 	private:
 
+		// GUI setup
+		void setup_cell_listview();
+
+		// input events
 		void handle_keyboard( const CL_InputEvent &key, const CL_InputState &state );
 	    void resize();
 
 
 		GameWindow *window;
+		CL_ListView *cell_list;
 
 		CL_InputContext ic;
 
@@ -45,6 +50,12 @@ class Game
 
 		// slots
 		CL_Slot keyboard_press_slot;
+
+		// setup modules, because
+		CL_SetupCore *setup_core;
+		CL_SetupDisplay *setup_display;
+		CL_SetupGL *setup_gl;
+		CL_SetupGUI *setup_gui;
 };
 
 #endif

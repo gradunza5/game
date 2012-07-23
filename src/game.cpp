@@ -19,9 +19,10 @@ Game::Game( )
 	: cursor_pos_x(0), cursor_pos_y(0), cursor_blink_rate(CURSOR_BLINK_RATE), cursor_color(CL_Color::white)
 {
 	// Setup modules
-	CL_SetupCore setup_core;
-	CL_SetupDisplay setup_display;
-	CL_SetupGL setup_gl;
+	setup_core = new CL_SetupCore;
+	setup_display = new CL_SetupDisplay;
+	setup_gl = new CL_SetupGL;
+	setup_gui = new CL_SetupGUI;
 
 	// create windows
 	CL_ConsoleWindow console("Console", 80, 200);
@@ -32,7 +33,8 @@ Game::Game( )
 	// setup GUI
 	CL_GUIThemeDefault theme;
 	CL_GUIWindowManagerSystem win_manager;
-	gui_manager = new CL_GUIManager();
+	gui_manager = new CL_GUIManager("resources/GUIThemeBasic");
+	//gui_manager = new CL_GUIManager();
 	gui_manager->set_window_manager(win_manager);
 
 	// setup Window
@@ -41,6 +43,9 @@ Game::Game( )
 	desc.set_size(CL_Size(window_width, window_height), true);
 
 	window = new GameWindow(this, gui_manager, desc);
+
+	// add list view for cell types
+	setup_cell_listview();
 
 	// create the map
 	map = new Map(MAP_WIDTH, MAP_HEIGHT);
@@ -52,6 +57,38 @@ Game::Game( )
 	keyboard_press_slot = ic.get_keyboard().sig_key_down().connect(this, &Game::handle_keyboard);
 	window->func_resized().set(this, &Game::resize);
 	window->func_close().set(this, &Game::quit);
+}
+
+void Game::setup_cell_listview()
+{
+	// create list view
+	cell_list = new CL_ListView( window );
+	
+	CL_Rect client_area = window->get_client_area();
+
+	cell_list->set_geometry( CL_Rect( 0, client_area.bottom-100, CL_Size(client_area.get_width(), 100) ) );
+
+	cell_list->set_display_mode( listview_mode_details );
+	cell_list->set_multi_select( false );
+
+	// create the column
+	CL_ListViewHeader *header = cell_list->get_header();
+	header->append( header->create_column( "cell_type_id", "cell type" ) ).set_width(100);
+
+	// for each cell type, add item
+	for( size_t i = 0; i < Cell::num_cell_types; i++ )
+	{
+		CL_ListViewItem item;
+		item = cell_list->create_item();
+
+		item.set_id( i );
+		item.set_editable( false );
+		item.set_column_text( "cell_type_id", Cell::Types[i].name );
+		
+		cell_list->get_document_item().append_child(item);
+	}
+
+	cell_list->set_scroll_position(0);
 }
 
 bool Game::quit()
@@ -100,7 +137,6 @@ void Game::redraw( CL_GraphicContext &gc )
 	CL_Draw::box(gc, 0, 0, cell_width, cell_height, cursor_color );
 
 	gc.pop_modelview();
-
 }
 
 void Game::handle_keyboard( const CL_InputEvent &key, const CL_InputState &state )
@@ -126,10 +162,10 @@ void Game::handle_keyboard( const CL_InputEvent &key, const CL_InputState &state
 
 		case CL_KEY_SPACE:
 			if( key.repeat_count > 0 ) return;
-			if( (*map)[cursor_pos_x][cursor_pos_y].getId() == Cell::Type::Empty )
-				(*map)[cursor_pos_x][cursor_pos_y].setType( Cell::Type::Wall );
+			if( (*map)[cursor_pos_x][cursor_pos_y].getId() == 0 )
+				(*map)[cursor_pos_x][cursor_pos_y].setId( 1 );
 			else
-				(*map)[cursor_pos_x][cursor_pos_y].setType( Cell::Type::Empty );
+				(*map)[cursor_pos_x][cursor_pos_y].setId( 0 );
 
 			break;
 	}

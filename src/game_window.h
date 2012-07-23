@@ -20,7 +20,7 @@ class GameWindow : public CL_Window
 		GameWindow( Game *game, CL_GUIManager *manger, const CL_DisplayWindowDescription &desc );
 
 	private:
-		void render( CL_GraphicContext &gc, const CL_Rect &clipRect );
+		void on_render( CL_GraphicContext &gc, const CL_Rect &clipRect );
 
 		Game *game;
 };
