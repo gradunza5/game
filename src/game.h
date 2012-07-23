@@ -7,12 +7,16 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
+#include <vector>
+
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
 #include <ClanLib/gl.h>
 #include <ClanLib/gui.h>
 
 #include "map.h"
+#include "entity.h"
+
 class GameWindow;
 
 class Game
@@ -47,6 +51,9 @@ class Game
 		int cursor_blink_rate;
 		CL_Colorf cursor_color;
 		CL_GUIManager *gui_manager;
+
+        // list of entities
+        std::vector<Entity> entities;
 
 		// slots
 		CL_Slot keyboard_press_slot;

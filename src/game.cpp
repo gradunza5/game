@@ -50,6 +50,11 @@ Game::Game( )
 	// create the map
 	map = new Map(MAP_WIDTH, MAP_HEIGHT);
 
+    // TODO: remove this
+    // create some test entities
+    Entity e (map, 10, 10);
+    entities.push_back(e);
+
 	// setup input
 	ic = window->get_ic();
 
@@ -137,6 +142,16 @@ void Game::redraw( CL_GraphicContext &gc )
 	CL_Draw::box(gc, 0, 0, cell_width, cell_height, cursor_color );
 
 	gc.pop_modelview();
+
+    // update/redraw any entities on the board
+    if (entities.size() != 0)
+    {
+        for (size_t i = 0; i < entities.size(); i++)
+        {
+            entities[i].update(gc, cell_width, cell_height);
+        }
+    }
+
 }
 
 void Game::handle_keyboard( const CL_InputEvent &key, const CL_InputState &state )
