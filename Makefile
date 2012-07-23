@@ -3,7 +3,7 @@ DIRS=src
 CLANLIB_COMPONENTS=Core App Display GL GUI
 CLANLIB_VER=2.3
 
-TARGET=clanlib_test
+TARGET=game
 
 
 SOURCES=$(foreach dir,${DIRS},$(wildcard ${dir}/*.cpp))
