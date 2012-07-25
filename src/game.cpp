@@ -42,10 +42,14 @@ Game::Game( )
 	desc.set_title("ClanLib Game");
 	desc.set_size(CL_Size(window_width, window_height), true);
 
-	window = new GameWindow(this, gui_manager, desc);
+	top_window = new CL_Window( gui_manager, desc );
+	game_frame = new GameWindow( this, top_window );
 
 	// add list view for cell types
 	setup_cell_listview();
+
+	// setup components
+	resize();
 
 	// create the map
 	map = new Map(MAP_WIDTH, MAP_HEIGHT);
@@ -56,22 +60,19 @@ Game::Game( )
     entities.push_back(e);
 
 	// setup input
-	ic = window->get_ic();
+	ic = top_window->get_ic();
 
 	// Slots
 	keyboard_press_slot = ic.get_keyboard().sig_key_down().connect(this, &Game::handle_keyboard);
-	window->func_resized().set(this, &Game::resize);
-	window->func_close().set(this, &Game::quit);
+	top_window->func_resized().set(this, &Game::resize);
+	top_window->func_close().set(this, &Game::quit);
 }
 
 void Game::setup_cell_listview()
 {
 	// create list view
-	cell_list = new CL_ListView( window );
+	cell_list = new CL_ListView( top_window );
 	
-	CL_Rect client_area = window->get_client_area();
-
-	cell_list->set_geometry( CL_Rect( 0, client_area.bottom-100, CL_Size(client_area.get_width(), 100) ) );
 
 	cell_list->set_display_mode( listview_mode_details );
 	cell_list->set_multi_select( false );
@@ -94,11 +95,13 @@ void Game::setup_cell_listview()
 	}
 
 	cell_list->set_scroll_position(0);
+	cell_list->set_focus(false);
+	cell_list->set_focus_policy( CL_GUIComponent::FocusPolicy::focus_refuse );
 }
 
 bool Game::quit()
 {
-	window->exit_with_code(0);
+	top_window->exit_with_code(0);
 	return true;
 }
 
@@ -159,7 +162,7 @@ void Game::handle_keyboard( const CL_InputEvent &key, const CL_InputState &state
 	switch( key.id )
 	{
 		case CL_KEY_ESCAPE:
-			window->exit_with_code(0);
+			top_window->exit_with_code(0);
 			break;
 
 		case CL_KEY_W: case CL_KEY_UP:
@@ -188,7 +191,11 @@ void Game::handle_keyboard( const CL_InputEvent &key, const CL_InputState &state
 
 void Game::resize( )
 {
-	CL_Rect area = window->get_client_area();
+	CL_Rect area = top_window->get_client_area();
 	window_width = area.get_width();
-	window_height = area.get_height();
+	window_height = area.get_height() - 100;
+
+	game_frame->set_geometry( CL_Rect( 0, 0, CL_Size( window_width, window_height ) ) );
+
+	cell_list->set_geometry( CL_Rect( 0, area.bottom-100, CL_Size(area.get_width(), 100) ) );
 }

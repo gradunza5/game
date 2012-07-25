@@ -14,10 +14,10 @@
 
 class Game;
 
-class GameWindow : public CL_Window
+class GameWindow : public CL_Frame
 {
 	public:
-		GameWindow( Game *game, CL_GUIManager *manger, const CL_DisplayWindowDescription &desc );
+		GameWindow( Game *game, CL_Window *win );
 
 	private:
 		void on_render( CL_GraphicContext &gc, const CL_Rect &clipRect );

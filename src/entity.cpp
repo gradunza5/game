@@ -37,8 +37,13 @@ void Entity::draw(CL_GraphicContext &gc, double cell_width, double cell_height)
 {
     gc.push_modelview();
 
-    gc.set_translate(current_x*cell_width, current_y*cell_height, 0);
-    CL_Draw::fill(gc, 0, 0, cell_width, cell_height, entity_color);
+	// draw a diamond
+	double small_side = std::min( cell_width, cell_height ) / 2.0;
+	int new_side  = hypot( small_side, small_side );
+
+    gc.set_translate(current_x*cell_width + cell_width/2, current_y*cell_height - std::min(0.0, cell_width/2.0 - cell_height/2.0), 0);
+	gc.mult_rotate(CL_Angle::from_radians(M_PI/4.0));
+    CL_Draw::fill(gc, 0, 0, new_side, new_side, entity_color);
 
     gc.pop_modelview();
 }

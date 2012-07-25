@@ -7,8 +7,8 @@
 #include "game_window.h"
 #include "game.h"
 
-GameWindow::GameWindow( Game *game, CL_GUIManager *manager, const CL_DisplayWindowDescription &desc )
-	: CL_Window( manager, desc ), game(game)
+GameWindow::GameWindow( Game *game, CL_Window *win )
+	: CL_Frame( win ), game(game)
 {
 	// set render function and set to always redraw
 	func_render().set( this, &GameWindow::on_render );

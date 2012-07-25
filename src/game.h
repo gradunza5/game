@@ -40,7 +40,8 @@ class Game
 	    void resize();
 
 
-		GameWindow *window;
+		CL_Window *top_window;
+		GameWindow *game_frame;
 		CL_ListView *cell_list;
 
 		CL_InputContext ic;
