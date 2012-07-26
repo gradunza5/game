@@ -33,7 +33,7 @@ Entity::~Entity()
  *
  * draws the entity on the given graphic context
  */
-void Entity::draw(CL_GraphicContext &gc, double cell_width, double cell_height)
+void Entity::draw(CL_GraphicContext &gc, double cell_width, double cell_height, double map_origin_x, double map_origin_y )
 {
     gc.push_modelview();
 
@@ -41,7 +41,7 @@ void Entity::draw(CL_GraphicContext &gc, double cell_width, double cell_height)
 	double small_side = std::min( cell_width, cell_height ) / 2.0;
 	int new_side  = hypot( small_side, small_side );
 
-    gc.set_translate(current_x*cell_width + cell_width/2, current_y*cell_height - std::min(0.0, cell_width/2.0 - cell_height/2.0), 0);
+    gc.set_translate(current_x*cell_width + cell_width/2 + map_origin_x, current_y*cell_height - std::min(0.0, cell_width/2.0 - cell_height/2.0) + map_origin_y, 0);
 	gc.mult_rotate(CL_Angle::from_radians(M_PI/4.0));
     CL_Draw::fill(gc, 0, 0, new_side, new_side, entity_color);
 
@@ -53,11 +53,11 @@ void Entity::draw(CL_GraphicContext &gc, double cell_width, double cell_height)
  *
  * Updates the Entity
  */
-void Entity::update(CL_GraphicContext &gc, double cell_width, double cell_height)
+void Entity::update(CL_GraphicContext &gc, double cell_width, double cell_height, double map_origin_x, double map_origin_y )
 {
     //TODO: update position here
 
-    draw(gc, cell_width, cell_height);
+    draw(gc, cell_width, cell_height, map_origin_x, map_origin_y);
 }
 
 /**

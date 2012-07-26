@@ -50,6 +50,9 @@ class Game
 
 		// the map of cells
 		Map *map;
+		double map_origin_x;
+		double map_origin_y;
+
 		int cur_cell_id;
 		double cell_width;
 		double cell_height;

@@ -10,13 +10,21 @@
 #define WIN_WIDTH	500
 #define WIN_HEIGHT	500
 
-#define MAP_WIDTH	50
-#define MAP_HEIGHT	50
+#define MAP_WIDTH	100
+#define MAP_HEIGHT	100
+
+#define CELL_MIN_SIZE	20
 
 #define CURSOR_BLINK_RATE 10
 
+#define SCROLL_BORDER_WIDTH 10
+#define SCROLL_SPEED	0.1
+
+
 Game::Game( )
-	: cur_cell_id(0), cursor_pos_x(0), cursor_pos_y(0), cursor_blink_rate(CURSOR_BLINK_RATE), cursor_color(CL_Color::white)
+	: map_origin_x(0), map_origin_y(0), 
+	cur_cell_id(0), 
+	cursor_pos_x(0), cursor_pos_y(0), cursor_blink_rate(CURSOR_BLINK_RATE), cursor_color(CL_Color::white)
 {
 	// Setup modules
 	setup_core = new CL_SetupCore;
@@ -117,30 +125,54 @@ void Game::updateLogic()
 	int mouse_x = ic.get_mouse().get_x();
 	int mouse_y = ic.get_mouse().get_y();
 
-	// convert to map space
-	cursor_pos_x = mouse_x / cell_width;
-	cursor_pos_y = mouse_y / cell_height;
-
-	// is the mouse button down, while inside the game frame, and the cell is a different type
-	if( ic.get_mouse().get_keycode( CL_MOUSE_LEFT ) &&
-			game_frame->get_geometry().contains( ic.get_mouse().get_position() ) && 
-			(*map)[cursor_pos_x][cursor_pos_y].getId() != cur_cell_id )
+	// if we're in the game frame
+	if( game_frame->get_geometry().contains( ic.get_mouse().get_position() ) )
 	{
-		// cell type change
-		// TODO eventually take into account cost to "build" cell
-		(*map)[cursor_pos_x][cursor_pos_y].setId( cur_cell_id );
-	}
+		// Scrolling
+		CL_Rect frame_geom = game_frame->get_geometry();
+		// X
+		if( mouse_x < frame_geom.left + SCROLL_BORDER_WIDTH && map_origin_x < 0)
+		{
+			map_origin_x+=SCROLL_SPEED;
+		}
+		if( mouse_x > frame_geom.right - SCROLL_BORDER_WIDTH && map_origin_x > (double)window_width/cell_width - map->getWidth() * cell_width )
+		{
+			map_origin_x-=SCROLL_SPEED;
+		}
+		// Y
+		if( mouse_y < frame_geom.top + SCROLL_BORDER_WIDTH && map_origin_y < 0)
+		{
+			map_origin_y+=SCROLL_SPEED;
+		}
+		if( mouse_y > frame_geom.bottom - SCROLL_BORDER_WIDTH && map_origin_y > (double)window_height/cell_height - map->getHeight() * cell_height )
+		{
+			map_origin_y-=SCROLL_SPEED;
+		}
 
+		// convert to map space
+		cursor_pos_x = (mouse_x - map_origin_x) / cell_width;
+		cursor_pos_y = (mouse_y - map_origin_y) / cell_height;
+
+		// is the mouse button down, while inside the game frame, and the cell is a different type
+		if( ic.get_mouse().get_keycode( CL_MOUSE_LEFT ) &&
+			cursor_pos_x >= 0 && cursor_pos_x < map->getWidth() &&
+			cursor_pos_y >= 0 && cursor_pos_y < map->getHeight() &&
+			(*map)[cursor_pos_x][cursor_pos_y].getId() != cur_cell_id )
+		{
+			// cell type change
+			// TODO eventually take into account cost to "build" cell
+			(*map)[cursor_pos_x][cursor_pos_y].setId( cur_cell_id );
+		}
+
+	}
 }
 
 void Game::redraw( CL_GraphicContext &gc )
 {
-	// TODO: move these for scrolling
-	double origin_x = 0;
-	double origin_y = 0;
+	// draw the map
+	map->draw( gc, map_origin_x, map_origin_y, cell_width, cell_height, window_width, window_height );
 
-	map->draw( gc, origin_x, origin_y, cell_width, cell_height );
-
+	// handle curosr blink color change
 	if( cursor_blink_rate-- == 0 )
 	{
 		cursor_blink_rate = CURSOR_BLINK_RATE;
@@ -155,11 +187,12 @@ void Game::redraw( CL_GraphicContext &gc )
 		}
 	}
 	
+	// draw cursor if mouse is in window
 	if( game_frame->get_geometry().contains( ic.get_mouse().get_position() ) )
 	{
 		gc.push_modelview();
 
-		gc.set_translate( cursor_pos_x*cell_width, cursor_pos_y*cell_height, 0 );
+		gc.set_translate( cursor_pos_x*cell_width + map_origin_x, cursor_pos_y*cell_height+map_origin_y, 0 );
 		CL_Draw::box(gc, 0, 0, cell_width, cell_height, cursor_color );
 
 		gc.pop_modelview();
@@ -170,7 +203,7 @@ void Game::redraw( CL_GraphicContext &gc )
     {
         for (size_t i = 0; i < entities.size(); i++)
         {
-            entities[i].update(gc, cell_width, cell_height);
+            entities[i].update(gc, cell_width, cell_height, map_origin_x, map_origin_y);
         }
     }
 
@@ -223,8 +256,8 @@ void Game::resize( )
 	window_height = area.get_height() - 100;
 
 	// set new cell size
-	cell_width = (double)window_width/MAP_WIDTH;
-	cell_height = (double)window_height/MAP_HEIGHT;
+	cell_width = std::max((double)CELL_MIN_SIZE, (double)window_width/MAP_WIDTH);
+	cell_height = std::max((double)CELL_MIN_SIZE, (double)window_height/MAP_HEIGHT);
 
 	// resize ui
 	game_frame->set_geometry( CL_Rect( 0, 0, CL_Size( window_width, window_height ) ) );

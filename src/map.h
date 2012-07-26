@@ -35,7 +35,7 @@ class Map
 		 *
 		 * Draw the map using the specified GraphicContext
 		 */
-		void draw( CL_GraphicContext &gc, double origin_x, double origin_y, double cell_width, double cell_height );
+		void draw( CL_GraphicContext &gc, double origin_x, double origin_y, double cell_width, double cell_height, double window_width, double window_height );
 
 		/*
 		 * getWidth()

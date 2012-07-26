@@ -48,7 +48,7 @@ class Entity
          *
          * updates and draws the Entity
          */
-        void update(CL_GraphicContext &gc, double cell_width, double cell_height);
+        void update(CL_GraphicContext &gc, double cell_width, double cell_height, double map_origin_x, double map_origin_y);
 
         /**
          * setColor(r, g, b)
@@ -77,7 +77,7 @@ class Entity
          *
          * Draws the entity
          */
-        void draw(CL_GraphicContext &gc, double cell_width, double cell_height);
+        void draw(CL_GraphicContext &gc, double cell_width, double cell_height, double map_origin_x, double map_origin_y);
 };
 
 #endif
