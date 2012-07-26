@@ -16,7 +16,7 @@
 #define CURSOR_BLINK_RATE 10
 
 Game::Game( )
-	: cursor_pos_x(0), cursor_pos_y(0), cursor_blink_rate(CURSOR_BLINK_RATE), cursor_color(CL_Color::white)
+	: cur_cell_id(0), cursor_pos_x(0), cursor_pos_y(0), cursor_blink_rate(CURSOR_BLINK_RATE), cursor_color(CL_Color::white)
 {
 	// Setup modules
 	setup_core = new CL_SetupCore;
@@ -64,6 +64,7 @@ Game::Game( )
 
 	// Slots
 	keyboard_press_slot = ic.get_keyboard().sig_key_down().connect(this, &Game::handle_keyboard);
+	cell_list->func_selection_changed().set(this, &Game::cell_selection_change);
 	top_window->func_resized().set(this, &Game::resize);
 	top_window->func_close().set(this, &Game::quit);
 }
@@ -112,14 +113,29 @@ void Game::run()
 
 void Game::updateLogic()
 {
-	
+	// mouse position over window
+	int mouse_x = ic.get_mouse().get_x();
+	int mouse_y = ic.get_mouse().get_y();
+
+	// convert to map space
+	cursor_pos_x = mouse_x / cell_width;
+	cursor_pos_y = mouse_y / cell_height;
+
+	// is the mouse button down, while inside the game frame, and the cell is a different type
+	if( ic.get_mouse().get_keycode( CL_MOUSE_LEFT ) &&
+			game_frame->get_geometry().contains( ic.get_mouse().get_position() ) && 
+			(*map)[cursor_pos_x][cursor_pos_y].getId() != cur_cell_id )
+	{
+		// cell type change
+		// TODO eventually take into account cost to "build" cell
+		(*map)[cursor_pos_x][cursor_pos_y].setId( cur_cell_id );
+	}
+
 }
 
 void Game::redraw( CL_GraphicContext &gc )
 {
-	double cell_width = (double)window_width/MAP_WIDTH;
-	double cell_height = (double)window_height/MAP_HEIGHT;
-
+	// TODO: move these for scrolling
 	double origin_x = 0;
 	double origin_y = 0;
 
@@ -139,12 +155,15 @@ void Game::redraw( CL_GraphicContext &gc )
 		}
 	}
 	
-	gc.push_modelview();
+	if( game_frame->get_geometry().contains( ic.get_mouse().get_position() ) )
+	{
+		gc.push_modelview();
 
-	gc.set_translate( cursor_pos_x*cell_width, cursor_pos_y*cell_height, 0 );
-	CL_Draw::box(gc, 0, 0, cell_width, cell_height, cursor_color );
+		gc.set_translate( cursor_pos_x*cell_width, cursor_pos_y*cell_height, 0 );
+		CL_Draw::box(gc, 0, 0, cell_width, cell_height, cursor_color );
 
-	gc.pop_modelview();
+		gc.pop_modelview();
+	}
 
     // update/redraw any entities on the board
     if (entities.size() != 0)
@@ -165,6 +184,7 @@ void Game::handle_keyboard( const CL_InputEvent &key, const CL_InputState &state
 			top_window->exit_with_code(0);
 			break;
 
+			/* old version
 		case CL_KEY_W: case CL_KEY_UP:
 			if( cursor_pos_y > 0 ) cursor_pos_y--;
 			break;
@@ -186,16 +206,27 @@ void Game::handle_keyboard( const CL_InputEvent &key, const CL_InputState &state
 				(*map)[cursor_pos_x][cursor_pos_y].setId( 0 );
 
 			break;
+			*/
 	}
+}
+
+void Game::cell_selection_change( CL_ListViewSelection sel )
+{
+	cur_cell_id = sel.get_first().get_item().get_id();
 }
 
 void Game::resize( )
 {
+	// set new game frame size
 	CL_Rect area = top_window->get_client_area();
 	window_width = area.get_width();
 	window_height = area.get_height() - 100;
 
-	game_frame->set_geometry( CL_Rect( 0, 0, CL_Size( window_width, window_height ) ) );
+	// set new cell size
+	cell_width = (double)window_width/MAP_WIDTH;
+	cell_height = (double)window_height/MAP_HEIGHT;
 
+	// resize ui
+	game_frame->set_geometry( CL_Rect( 0, 0, CL_Size( window_width, window_height ) ) );
 	cell_list->set_geometry( CL_Rect( 0, area.bottom-100, CL_Size(area.get_width(), 100) ) );
 }

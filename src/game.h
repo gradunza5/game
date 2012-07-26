@@ -37,8 +37,10 @@ class Game
 
 		// input events
 		void handle_keyboard( const CL_InputEvent &key, const CL_InputState &state );
+		void cell_selection_change( CL_ListViewSelection sel );
 	    void resize();
 
+		CL_GUIManager *gui_manager;
 
 		CL_Window *top_window;
 		GameWindow *game_frame;
@@ -46,12 +48,20 @@ class Game
 
 		CL_InputContext ic;
 
+		// the map of cells
 		Map *map;
+		int cur_cell_id;
+		double cell_width;
+		double cell_height;
+
+		// cursor data
 		int cursor_pos_x, cursor_pos_y;
-		int window_width, window_height;
 		int cursor_blink_rate;
 		CL_Colorf cursor_color;
-		CL_GUIManager *gui_manager;
+
+		// size of game frame
+		int window_width, window_height;
+
 
         // list of entities
         std::vector<Entity> entities;
