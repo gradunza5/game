@@ -36,6 +36,7 @@ class Game
 		void setup_cell_listview();
 
 		// input events
+		void handle_mouse( const CL_InputEvent &evt, const CL_InputState &state );
 		void handle_keyboard( const CL_InputEvent &key, const CL_InputState &state );
 		void cell_selection_change( CL_ListViewSelection sel );
 	    void resize();
@@ -56,6 +57,7 @@ class Game
 		int cur_cell_id;
 		double cell_width;
 		double cell_height;
+		int min_cell_size;
 
 		// cursor data
 		int cursor_pos_x, cursor_pos_y;
@@ -71,6 +73,7 @@ class Game
 
 		// slots
 		CL_Slot keyboard_press_slot;
+		CL_Slot mouse_evt_slot;
 
 		// setup modules, because
 		CL_SetupCore *setup_core;

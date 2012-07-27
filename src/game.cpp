@@ -61,6 +61,7 @@ Game::Game( )
 
 	// create the map
 	map = new Map(MAP_WIDTH, MAP_HEIGHT);
+	min_cell_size = CELL_MIN_SIZE;
 
     // TODO: remove this
     // create some test entities
@@ -72,6 +73,7 @@ Game::Game( )
 
 	// Slots
 	keyboard_press_slot = ic.get_keyboard().sig_key_down().connect(this, &Game::handle_keyboard);
+	mouse_evt_slot      = ic.get_mouse().sig_key_down().connect(this, &Game::handle_mouse);
 	cell_list->func_selection_changed().set(this, &Game::cell_selection_change);
 	top_window->func_resized().set(this, &Game::resize);
 	top_window->func_close().set(this, &Game::quit);
@@ -121,6 +123,10 @@ void Game::run()
 
 void Game::updateLogic()
 {
+	// set new cell size
+	cell_width = std::max((double)min_cell_size, (double)window_width/MAP_WIDTH);
+	cell_height = std::max((double)min_cell_size, (double)window_height/MAP_HEIGHT);
+
 	// mouse position over window
 	int mouse_x = ic.get_mouse().get_x();
 	int mouse_y = ic.get_mouse().get_y();
@@ -209,6 +215,23 @@ void Game::redraw( CL_GraphicContext &gc )
 
 }
 
+void Game::handle_mouse( const CL_InputEvent &evt, const CL_InputState &state )
+{
+	if( evt.type == CL_InputEvent::Type::pressed )
+	{
+		switch( evt.id )
+		{
+			case CL_MOUSE_WHEEL_UP:
+				min_cell_size++;
+				break;
+			case CL_MOUSE_WHEEL_DOWN:
+				min_cell_size--;
+				break;
+
+		}
+	}
+}
+
 void Game::handle_keyboard( const CL_InputEvent &key, const CL_InputState &state )
 {
 	switch( key.id )
@@ -254,10 +277,6 @@ void Game::resize( )
 	CL_Rect area = top_window->get_client_area();
 	window_width = area.get_width();
 	window_height = area.get_height() - 100;
-
-	// set new cell size
-	cell_width = std::max((double)CELL_MIN_SIZE, (double)window_width/MAP_WIDTH);
-	cell_height = std::max((double)CELL_MIN_SIZE, (double)window_height/MAP_HEIGHT);
 
 	// resize ui
 	game_frame->set_geometry( CL_Rect( 0, 0, CL_Size( window_width, window_height ) ) );
