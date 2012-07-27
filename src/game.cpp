@@ -17,7 +17,7 @@
 
 #define CURSOR_BLINK_RATE 10
 
-#define SCROLL_BORDER_WIDTH 10
+#define SCROLL_BORDER_WIDTH 20
 #define SCROLL_SPEED	0.1
 
 
@@ -155,14 +155,24 @@ void Game::updateLogic()
 			map_origin_y-=SCROLL_SPEED;
 		}
 
+		// do bounds checking, in the case of zooming
+		if( map_origin_x > 0 ) map_origin_x = 0;
+		if( map_origin_y > 0 ) map_origin_y = 0;
+
+		if( map_origin_x < (double)window_width/cell_width - map->getWidth() * cell_width ) 
+			map_origin_x = (double)window_width/cell_width - map->getWidth() * cell_width;
+
+		if( map_origin_y < (double)window_height/cell_height - map->getHeight() * cell_height ) 
+			map_origin_y = (double)window_height/cell_height - map->getHeight() * cell_height;
+
 		// convert to map space
 		cursor_pos_x = (mouse_x - map_origin_x) / cell_width;
 		cursor_pos_y = (mouse_y - map_origin_y) / cell_height;
 
 		// is the mouse button down, while inside the game frame, and the cell is a different type
 		if( ic.get_mouse().get_keycode( CL_MOUSE_LEFT ) &&
-			cursor_pos_x >= 0 && cursor_pos_x < map->getWidth() &&
-			cursor_pos_y >= 0 && cursor_pos_y < map->getHeight() &&
+			cursor_pos_x >= 0 && (size_t)cursor_pos_x < map->getWidth() &&
+			cursor_pos_y >= 0 && (size_t)cursor_pos_y < map->getHeight() &&
 			(*map)[cursor_pos_x][cursor_pos_y].getId() != cur_cell_id )
 		{
 			// cell type change
@@ -219,16 +229,32 @@ void Game::handle_mouse( const CL_InputEvent &evt, const CL_InputState &state )
 {
 	if( evt.type == CL_InputEvent::Type::pressed )
 	{
+		double mouse_x = ic.get_mouse().get_x();
+		double mouse_y = ic.get_mouse().get_y();
+
+		double frac_x = (double)(mouse_x - map_origin_x) / cell_width;
+		double frac_y = (double)(mouse_y - map_origin_y) / cell_height;
+
 		switch( evt.id )
 		{
 			case CL_MOUSE_WHEEL_UP:
 				min_cell_size++;
+
 				break;
 			case CL_MOUSE_WHEEL_DOWN:
 				min_cell_size--;
 				break;
 
 		}
+
+		double new_cell_width = std::max((double)min_cell_size, (double)window_width/MAP_WIDTH);
+		double new_cell_height = std::max((double)min_cell_size, (double)window_height/MAP_HEIGHT);
+
+		double new_frac_x = (double)(mouse_x - map_origin_x) / new_cell_width;
+		double new_frac_y = (double)(mouse_y - map_origin_y) / new_cell_height;
+		
+		map_origin_x += (new_frac_x-frac_x)*new_cell_width;
+		map_origin_y += (new_frac_y-frac_y)*new_cell_height;
 	}
 }
 
