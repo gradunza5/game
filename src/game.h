@@ -30,6 +30,8 @@ class Game
 		void redraw( CL_GraphicContext &gc );
 
 		bool quit( );
+
+		static CL_Sprite& get_tileset() { return tileset; }
 	private:
 
 		// GUI setup
@@ -40,6 +42,8 @@ class Game
 		void handle_keyboard( const CL_InputEvent &key, const CL_InputState &state );
 		void cell_selection_change( CL_ListViewSelection sel );
 	    void resize();
+
+		CL_ResourceManager *resources;
 
 		CL_GUIManager *gui_manager;
 
@@ -67,6 +71,8 @@ class Game
 		// size of game frame
 		int window_width, window_height;
 
+		// Graphics
+		static CL_Sprite tileset;
 
         // list of entities
         std::vector<Entity> entities;

@@ -21,6 +21,10 @@
 #define SCROLL_SPEED	0.1
 
 
+// static variables
+CL_Sprite Game::tileset;
+
+
 Game::Game( )
 	: map_origin_x(0), map_origin_y(0), 
 	cur_cell_id(0), 
@@ -38,6 +42,9 @@ Game::Game( )
 	window_width = WIN_WIDTH;
 	window_height = WIN_HEIGHT;
 
+	// Load resources
+	resources = new CL_ResourceManager("resources.xml");
+
 	// setup GUI
 	CL_GUIThemeDefault theme;
 	CL_GUIWindowManagerSystem win_manager;
@@ -52,6 +59,9 @@ Game::Game( )
 
 	top_window = new CL_Window( gui_manager, desc );
 	game_frame = new GameWindow( this, top_window );
+
+	// load tileset
+	tileset = CL_Sprite(top_window->get_gc(), "tileset", resources);
 
 	// add list view for cell types
 	setup_cell_listview();

@@ -17,7 +17,7 @@ class Cell
 		typedef struct
 		{
 			const std::string name;
-			const CL_Colorf color;
+			const int type;
 			const double move_cost;
 		} cell_type;
 
@@ -50,12 +50,14 @@ class Cell
 		 *
 		 * Draw this cell
 		 */
-		void draw( CL_GraphicContext &gc, double width, double height );
+		void draw( CL_GraphicContext &gc, double width, double height, int idx );
 
 		/*
-		 * Get the color of this cell
+		 * getType()
+		 *
+		 * return the cell type
 		 */
-		CL_Colorf getColor() { return Cell::Types[id].color; }
+		int getType() { return Cell::Types[id].type; }
 
 		/*
 		 * Get the cost of movement through this cell

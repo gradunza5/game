@@ -53,12 +53,13 @@ class Map
 		 */
 		Cell* operator[](size_t i);
 
-
 		/*
 		 * TODO: More functionality
 		 */
 
 	private:
+		int find_neighbors( int type, int x, int y );
+
 		// The underlying map
 		Cell **map;
 

@@ -7,6 +7,7 @@
  */
 
 #include "map.h"
+#include "tileset.h"
 
 /*
  * Map(w, h)
@@ -61,8 +62,17 @@ void Map::draw( CL_GraphicContext &gc, double origin_x, double origin_y, double 
 			if( y_pos < -cell_height ) continue;	// not in window yet, not visible
 			if( y_pos > window_height ) break;		// beyond end of window, not visible
 
-			gc.set_translate(x_pos, y_pos, 0);
-			map[i][j].draw(gc, cell_width, std::min(cell_height, window_height - y_pos));
+			// determine the tileset type
+			int cell_type = map[i][j].getType();
+
+			if( cell_type < 0 )
+				cell_type = find_neighbors(cell_type, i, j);
+
+			if( cell_type >= 0 )
+			{
+				gc.set_translate(x_pos, y_pos, 0);
+				map[i][j].draw(gc, cell_width, std::min(cell_height, window_height-y_pos), cell_type);
+			}
 		}
 	}
 
@@ -81,3 +91,21 @@ Cell* Map::operator[](size_t i)
 	return NULL;
 }
 
+/*
+ * find_neighbors
+ *
+ * Find the types of the cells neighboring this cell
+ * Used for cells that have different appearances based on neighbors
+ */
+int Map::find_neighbors( int type, int x, int y )
+{
+	int index = -type;
+
+	// check N, S, E, W
+	if( map[x][y-1].getType() == type ) index += MULTI_N;
+	if( map[x][y+1].getType() == type ) index += MULTI_S;
+	if( map[x+1][y].getType() == type ) index += MULTI_E;
+	if( map[x-1][y].getType() == type ) index += MULTI_W;
+
+	return index;
+}

@@ -7,17 +7,19 @@
  */
 
 #include "cell.h"
+#include "game.h"
+#include "tileset.h"
 #include <ClanLib/core.h>
 
-#define CELL_TYPE(x, r,g,b, c)	 {std::string(#x), CL_Colorf(r,g,b), (c)} 
+#define CELL_TYPE(x, id, c)	 {std::string(#x), id, (c)} 
 const Cell::cell_type Cell::Types[] = 
 {
-	//			Name	  r,   g,   b	move_cost
-	CELL_TYPE(	Grass,	  1, 142,  14,	 5),
-	CELL_TYPE(	Path,	120,  72,   0,	 1),
-	CELL_TYPE(	Lava,	255,   0,   0,	-1),
-	CELL_TYPE(	Wall,	 80,  80,  80,	-1),
-	CELL_TYPE(	Empty,	  0,   0,   0,	 10)
+	//			Name	id			move_cost
+	CELL_TYPE(	Grass,	GRASS_ID,	 5),
+	CELL_TYPE(	Path,	PATH_ID,	 1),
+	CELL_TYPE(	Lava,	LAVA_ID,	-1),
+	CELL_TYPE(	Wall,	WALL_ID,	-1),
+	CELL_TYPE(	Empty,	EMPTY_ID,	 10)
 };
 const size_t Cell::num_cell_types = sizeof( Cell::Types ) / sizeof( cell_type );
 
@@ -41,7 +43,14 @@ void Cell::setId( int id )
  *
  * Draw this cell
  */
-void Cell::draw( CL_GraphicContext &gc, double width, double height )
+void Cell::draw( CL_GraphicContext &gc, double width, double height, int idx )
 {
-	CL_Draw::fill(gc, 0, 0, width, height, Cell::Types[id].color);
+	CL_Sprite &sprite( Game::get_tileset() );
+
+	if( idx >= sprite.get_frame_count() ) return;
+
+	sprite.set_frame( idx );
+	sprite.set_scale( width/TILESET_SIZE, height/TILESET_SIZE );
+
+	sprite.draw( gc, 0, 0 );
 }
