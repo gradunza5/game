@@ -17,6 +17,7 @@
 // multi tile types -(start_index)
 #define PATH_ID		(-2)
 #define WALL_ID		(-18)
+#define WATER_ID	(-34)
 
 // Mask for multi visual tiles
 #define MULTI_N	(8)
