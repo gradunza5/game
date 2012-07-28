@@ -11,9 +11,6 @@
 #include <ClanLib/display.h>
 #include <string.h>
 
-#define CELL_TYPE(x, r,g,b)	 {std::string(#x), CL_Colorf(r,g,b)} 
-
-
 class Cell
 {
 	public:
@@ -21,6 +18,7 @@ class Cell
 		{
 			const std::string name;
 			const CL_Colorf color;
+			const double move_cost;
 		} cell_type;
 
 		static const cell_type Types[];
@@ -55,9 +53,14 @@ class Cell
 		void draw( CL_GraphicContext &gc, double width, double height );
 
 		/*
-		 * TODO: different method to determine appearance
+		 * Get the color of this cell
 		 */
 		CL_Colorf getColor() { return Cell::Types[id].color; }
+
+		/*
+		 * Get the cost of movement through this cell
+		 */
+		double getMoveCost() { return Cell::Types[id].move_cost; }
 
 		/*
 		 * TODO: More functionality

@@ -227,7 +227,7 @@ void Game::redraw( CL_GraphicContext &gc )
 
 void Game::handle_mouse( const CL_InputEvent &evt, const CL_InputState &state )
 {
-	if( evt.type == CL_InputEvent::Type::pressed )
+	if( evt.type == CL_InputEvent::Type::pressed && game_frame->get_geometry().contains( ic.get_mouse().get_position() ) )
 	{
 		double mouse_x = ic.get_mouse().get_x();
 		double mouse_y = ic.get_mouse().get_y();
