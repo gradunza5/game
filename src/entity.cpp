@@ -7,6 +7,8 @@
  */
 
 #include "entity.h"
+#include "game.h"
+#include "tileset.h"
 
 /**
  * Entity(map, x, y, color)
@@ -37,13 +39,13 @@ void Entity::draw(CL_GraphicContext &gc, double cell_width, double cell_height, 
 {
     gc.push_modelview();
 
-	// draw a diamond
-	double small_side = std::min( cell_width, cell_height ) / 2.0;
-	int new_side  = hypot( small_side, small_side ) / 4.0;
+    gc.set_translate(current_x*cell_width + map_origin_x, current_y*cell_height + map_origin_y, 0);
+	CL_Sprite &sprite( Game::get_tileset() );
 
-    gc.set_translate(current_x*cell_width + cell_width/2 + map_origin_x, current_y*cell_height + cell_height/2.0 + map_origin_y, 0);
-	gc.mult_rotate(CL_Angle::from_radians(M_PI/4.0));
-    CL_Draw::fill(gc, -new_side, -new_side, new_side, new_side, entity_color);
+	sprite.set_frame( ROBOT_ID );
+	sprite.set_scale( cell_width/TILESET_SIZE, cell_height/TILESET_SIZE );
+
+	sprite.draw( gc, 0, 0 );
 
     gc.pop_modelview();
 }
