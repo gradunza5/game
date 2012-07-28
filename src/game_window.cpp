@@ -19,7 +19,11 @@ GameWindow::GameWindow( Game *game, CL_Window *win )
 void GameWindow::on_render( CL_GraphicContext &gc, const CL_Rect &clipRect )
 {
 	game->updateLogic();
+
+	gc.push_cliprect();
+
+	gc.set_cliprect(clipRect);
 	game->redraw(gc);
 
-	//CL_Window::render( gc, clipRect );
+	gc.pop_cliprect();
 }

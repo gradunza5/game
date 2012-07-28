@@ -11,12 +11,12 @@
 
 // single tile types (index in tileset)
 #define GRASS_ID	(0)
-#define LAVA_ID		(999)
+#define LAVA_ID		(1)
 #define EMPTY_ID	(0)
 
 // multi tile types -(start_index)
-#define PATH_ID		(-1)
-#define WALL_ID		(-999)
+#define PATH_ID		(-2)
+#define WALL_ID		(-18)
 
 // Mask for multi visual tiles
 #define MULTI_N	(8)

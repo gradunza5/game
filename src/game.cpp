@@ -7,13 +7,13 @@
 #include "game.h"
 #include "game_window.h"
 
-#define WIN_WIDTH	500
-#define WIN_HEIGHT	500
+#define WIN_WIDTH	1000
+#define WIN_HEIGHT	1000
 
 #define MAP_WIDTH	100
 #define MAP_HEIGHT	100
 
-#define CELL_MIN_SIZE	20
+#define CELL_MIN_SIZE	64
 
 #define CURSOR_BLINK_RATE 10
 

@@ -1,7 +1,7 @@
 <resources>
 	<sprite name="tileset">
 		<image file="resources/tileset.png">
-			<grid size="64,64" array="5,4"/>
+			<grid size="64,64" array="5,7"/>
 		</image>
 	</sprite>
 </resources>

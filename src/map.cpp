@@ -70,8 +70,8 @@ void Map::draw( CL_GraphicContext &gc, double origin_x, double origin_y, double 
 
 			if( cell_type >= 0 )
 			{
-				gc.set_translate(x_pos, y_pos, 0);
-				map[i][j].draw(gc, cell_width, std::min(cell_height, window_height-y_pos), cell_type);
+				gc.set_translate((float)x_pos, (float)y_pos, 0);
+				map[i][j].draw(gc, cell_width, cell_height, cell_type);
 			}
 		}
 	}

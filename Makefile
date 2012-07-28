@@ -247,6 +247,7 @@ src/map.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/input_device.h
 src/map.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/input_state.h
 src/map.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/keys.h
 src/map.o: /usr/include/X11/keysym.h /usr/include/X11/keysymdef.h
+src/map.o: /usr/include/string.h /usr/include/xlocale.h src/tileset.h
 src/game.o: src/game.h /usr/include/ClanLib-2.3/ClanLib/core.h
 src/game.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/cl_platform.h
 src/game.o: /usr/include/stdint.h /usr/include/features.h
@@ -775,7 +776,220 @@ src/game.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Providers/gui_window_manager_pr
 src/game.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_window_manager.h
 src/game.o: src/map.h /usr/include/stdlib.h /usr/include/bits/waitflags.h
 src/game.o: /usr/include/bits/waitstatus.h /usr/include/alloca.h src/cell.h
+src/game.o: /usr/include/string.h /usr/include/xlocale.h src/entity.h
 src/game.o: src/game_window.h
+src/entity.o: src/entity.h src/map.h /usr/include/stdlib.h
+src/entity.o: /usr/include/features.h /usr/include/stdc-predef.h
+src/entity.o: /usr/include/sys/cdefs.h /usr/include/bits/wordsize.h
+src/entity.o: /usr/include/gnu/stubs.h /usr/include/bits/waitflags.h
+src/entity.o: /usr/include/bits/waitstatus.h /usr/include/endian.h
+src/entity.o: /usr/include/bits/endian.h /usr/include/bits/byteswap.h
+src/entity.o: /usr/include/bits/byteswap-16.h /usr/include/sys/types.h
+src/entity.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+src/entity.o: /usr/include/time.h /usr/include/sys/select.h
+src/entity.o: /usr/include/bits/select.h /usr/include/bits/sigset.h
+src/entity.o: /usr/include/bits/time.h /usr/include/sys/sysmacros.h
+src/entity.o: /usr/include/alloca.h src/cell.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/display.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/display.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/api_display.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Text/string_types.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Text/string_ref8.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/api_core.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Text/string_data8.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Text/string_ref16.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Text/string_data16.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Text/string8.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Text/string16.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/display_target.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/sharedptr.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/system.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Text/string_types.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/cl_platform.h
+src/entity.o: /usr/include/stdint.h /usr/include/bits/wchar.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/weakptr.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/sharedptr.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/setup_display.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/screen_info.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/color.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/api_display.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Text/string_types.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/color_hsv.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/color_hsv2.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/color_hsv.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/color_hsl.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/color_hsl2.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/draw.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/graphic_context.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/color.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/texture_format.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/sharedptr.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/mat4.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/mat2.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/mat3.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/mat4.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/angle.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/sharedptr.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/IOData/virtual_directory.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/IOData/file.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/IOData/iodevice.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/databuffer.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/rect.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/vec2.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/cl_math.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/vec1.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/vec3.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/vec4.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/origin.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/size.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/point.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/signal_v0.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/slot.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/signals_impl.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/primitives_array.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/vec3.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/frame_buffer.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/gradient.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/color.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/image.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Resources/resource_data_session.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Resources/resource.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Resources/resource_manager.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Resources/resource.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/weakptr.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/IOData/virtual_directory.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/origin.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/image_import_description.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/callback_1.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/exception.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/texture.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/graphic_context.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/compare_function.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/rounded_rect.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/sprite.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/blend_mode.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Collision/collision_outline.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Collision/contour.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Collision/outline_circle.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/point.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Collision/outline_accuracy.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Resources/resource.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/cl_math.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/circle.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/sprite_description.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/pixel_buffer.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/pixel_format.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/texture_format.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/buffer_usage.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/subtexture.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/texture_group.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/span_layout.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/size.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/collidable_sprite.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Collision/collision_outline.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Collision/contour.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Collision/outline_accuracy.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Collision/outline_circle.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Collision/outline_math.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Collision/outline_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Collision/outline_provider_bitmap.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Collision/outline_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Collision/outline_provider_file.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Font/font.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Font/font_description.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Font/font_description.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Font/font_system.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Font/font.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/subtexture.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Font/font_sprite.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Font/font_metrics.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Font/font_freetype.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Font/font_vector.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/palette.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/pixel_buffer.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/pixel_buffer_help.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/pixel_buffer.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/pixel_format.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/icon_set.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/perlin_noise.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/image_import_description.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/ImageProviders/jpeg_compressor.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/ImageProviders/jpeg_decompressor.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/ImageProviders/jpeg_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/ImageProviders/pcx_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/ImageProviders/png_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/ImageProviders/provider_factory.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/ImageProviders/provider_type.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/ImageProviders/provider_type_register.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/ImageProviders/provider_type.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/ImageProviders/targa_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/blend_mode.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/buffer_control.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/compare_function.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/element_array_buffer.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/vertex_array_buffer.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/buffer_usage.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/frame_buffer.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/graphic_context.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/occlusion_query.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/pen.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/polygon_rasterizer.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/primitives_array.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/primitives_array_builder.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/program_attribute.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/program_object.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/program_uniform.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/render_batcher.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/render_buffer.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/texture.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/shader_object.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/shared_gc_data.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/texture.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/vertex_array_buffer.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/cursor_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/display_target_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/display_window_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/weakptr.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/signal_v1.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/signal_v2.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/callback_v1.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/display_window.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/callback_0.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/display_target.h
+src/entity.o: /usr/include/X11/Xlib.h /usr/include/X11/X.h
+src/entity.o: /usr/include/X11/Xfuncproto.h /usr/include/X11/Xosdefs.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/element_array_buffer_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/element_array_buffer.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/pixel_buffer_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/font_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/frame_buffer_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/frame_buffer.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/graphic_context_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/primitives_array.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/input_device_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/input_device.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/disposable_object.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/occlusion_query_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/program_object_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/render_buffer_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/render_window_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/shader_object_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/shader_object_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/shader_object.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/texture_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/TargetProviders/vertex_array_buffer_provider.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/vertex_array_buffer.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/cursor.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/display_window.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/display_window_description.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/input_context.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/input_device.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/input_event.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/input_device.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/input_state.h
+src/entity.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/keys.h
+src/entity.o: /usr/include/X11/keysym.h /usr/include/X11/keysymdef.h
+src/entity.o: /usr/include/string.h /usr/include/xlocale.h
 src/cell.o: src/cell.h /usr/include/ClanLib-2.3/ClanLib/display.h
 src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Display/display.h
 src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Display/api_display.h
@@ -985,6 +1199,7 @@ src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/input_device.h
 src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/input_state.h
 src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/keys.h
 src/cell.o: /usr/include/X11/keysym.h /usr/include/X11/keysymdef.h
+src/cell.o: /usr/include/string.h /usr/include/xlocale.h src/game.h
 src/cell.o: /usr/include/ClanLib-2.3/ClanLib/core.h
 src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/cl_platform.h
 src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Text/string_types.h
@@ -1184,6 +1399,128 @@ src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Crypto/aes256_encrypt.h
 src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Crypto/aes256_decrypt.h
 src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Crypto/rsa.h
 src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/core_iostream.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/gl.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GL/opengl.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GL/api_gl.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GL/opengl_defines.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/cl_platform.h
+src/cell.o: /usr/include/GL/gl.h /usr/include/GL/glext.h
+src/cell.o: /usr/include/inttypes.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Display/Image/pixel_format.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/texture.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GL/opengl_defines.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GL/opengl_target.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Display/display_target.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GL/opengl_window_description.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/display_window_description.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GL/opengl_wrap.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GL/opengl.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GL/setup_gl.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GL/opengl_graphic_context.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/graphic_context.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/gui.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/setup_gui.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/api_gui.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/accelerator_table.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/callback_v1.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_message.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/accelerator_key.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/callback_v2.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_message_input.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_message.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_component.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/callback_0.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/callback_1.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/callback_v0.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/callback_v3.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/callback_2.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/IOData/virtual_directory.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/display_window.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/input_context.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_layout.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_component_description.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_layout.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_layout_corners.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_message.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_message_input.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_message_resize.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_message_focus_change.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_message_activation_change.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_message_close.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_message_pointer.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_manager.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/signal_v1.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Math/point.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/accelerator_table.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_window_manager.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_component.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/signal_v2.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/signal_v3.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_window_manager_system.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_window_manager.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_window_manager_texture.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_window_manager_texture_window.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_window_manager_direct.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_theme.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_theme_default.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_theme.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_theme_part.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_theme_part_property.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/checkbox.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/api_gui.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_component.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/Signals/callback_v0.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/combobox.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/folderbrowsedialog.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/frame.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/groupbox.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Display/Render/graphic_context.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/imageview.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/label.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/lineedit.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Display/Window/input_event.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/listview.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/listview_item.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/listview_selected_item.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/listview_column_header.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/listview_icon_list.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Display/2D/sprite.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/listview_icon.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/listview.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/listview_header.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/listview_column_data.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/main_window.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/menubar.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/message_box.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/window.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/CSSLayout/css_layout.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/CSSLayout/api_csslayout.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/uniqueptr.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/openfiledialog.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/popupmenu.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/popupmenu_item.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/progressbar.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/push_button.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/radiobutton.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/savefiledialog.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/scrollbar.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/spin.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/statusbar.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/tab.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/tab_page.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/textedit.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/toolbar.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/toolbar_item.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/tooltip.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/slider.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Components/window.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Providers/gui_theme_provider.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Providers/gui_layout_provider.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Providers/gui_window_manager_provider.h
+src/cell.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_window_manager.h
+src/cell.o: src/map.h /usr/include/stdlib.h /usr/include/bits/waitflags.h
+src/cell.o: /usr/include/bits/waitstatus.h /usr/include/alloca.h src/entity.h
+src/cell.o: src/tileset.h
 src/main.o: /usr/include/ClanLib-2.3/ClanLib/core.h
 src/main.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/cl_platform.h
 src/main.o: /usr/include/stdint.h /usr/include/features.h
@@ -1715,6 +2052,7 @@ src/main.o: /usr/include/ClanLib-2.3/ClanLib/GUI/Providers/gui_window_manager_pr
 src/main.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_window_manager.h
 src/main.o: src/map.h /usr/include/stdlib.h /usr/include/bits/waitflags.h
 src/main.o: /usr/include/bits/waitstatus.h /usr/include/alloca.h src/cell.h
+src/main.o: /usr/include/string.h /usr/include/xlocale.h src/entity.h
 src/game_window.o: src/game_window.h /usr/include/ClanLib-2.3/ClanLib/core.h
 src/game_window.o: /usr/include/ClanLib-2.3/ClanLib/Core/System/cl_platform.h
 src/game_window.o: /usr/include/stdint.h /usr/include/features.h
@@ -2245,4 +2583,5 @@ src/game_window.o: /usr/include/ClanLib-2.3/ClanLib/GUI/gui_window_manager.h
 src/game_window.o: src/game.h src/map.h /usr/include/stdlib.h
 src/game_window.o: /usr/include/bits/waitflags.h
 src/game_window.o: /usr/include/bits/waitstatus.h /usr/include/alloca.h
-src/game_window.o: src/cell.h
+src/game_window.o: src/cell.h /usr/include/string.h /usr/include/xlocale.h
+src/game_window.o: src/entity.h
