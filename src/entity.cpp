@@ -13,7 +13,7 @@
  *
  * Creates a new entity at the starting location defined by x and y
  */
-Entity::Entity(Map *map, double startLocationX, double startLocationY, CL_Colorf startColor)
+Entity::Entity(Map *map, int startLocationX, int startLocationY, CL_Colorf startColor)
     : map(map), current_x(startLocationX), current_y(startLocationY), entity_color(startColor)
 {
 }
@@ -53,11 +53,8 @@ void Entity::draw(CL_GraphicContext &gc, double cell_width, double cell_height, 
  *
  * Updates the Entity
  */
-void Entity::update(CL_GraphicContext &gc, double cell_width, double cell_height, double map_origin_x, double map_origin_y )
+void Entity::update( )
 {
-    //TODO: update position here
-
-    draw(gc, cell_width, cell_height, map_origin_x, map_origin_y);
 }
 
 /**

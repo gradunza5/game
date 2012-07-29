@@ -6,6 +6,7 @@
  */
 #include "game.h"
 #include "game_window.h"
+#include "mover.h"
 
 #define WIN_WIDTH	1000
 #define WIN_HEIGHT	1000
@@ -75,8 +76,8 @@ Game::Game( )
 
     // TODO: remove this
     // create some test entities
-    Entity e (map, 10, 10);
-    entities.push_back(e);
+    Mover *m = new Mover(map, 10, 10);
+    entities.push_back(m);
 
 	// setup input
 	ic = top_window->get_ic();
@@ -191,6 +192,11 @@ void Game::updateLogic()
 		}
 
 	}
+
+	for( Entity *e : entities )
+	{
+		e->update();
+	}
 }
 
 void Game::redraw( CL_GraphicContext &gc )
@@ -229,7 +235,7 @@ void Game::redraw( CL_GraphicContext &gc )
     {
         for (size_t i = 0; i < entities.size(); i++)
         {
-            entities[i].update(gc, cell_width, cell_height, map_origin_x, map_origin_y);
+            entities[i]->draw(gc, cell_width, cell_height, map_origin_x, map_origin_y);
         }
     }
 

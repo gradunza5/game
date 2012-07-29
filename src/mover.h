@@ -21,7 +21,7 @@ class Mover : public Entity
         /**
          * Constructor
          */
-        Mover(Map *map, double startLocationX, double startLocationY, 
+        Mover(Map *map, int startLocationX, int startLocationY, 
                 CL_Colorf startColor = CL_Colorf::hotpink);
 
         /**
@@ -29,29 +29,31 @@ class Mover : public Entity
          *
          * overridden from Entity to provide motion to the object
          */
-        virtual void update(
-                CL_GraphicContext &gc, double cell_width, double cell_height, 
-                double map_origin_x, double map_origin_y
-                );
+        virtual void update();
 
         /**
          * function setDestination(point)
          *
          * tells the mover to travel to a point
          */
-        void setDestination(double destination_x, double destination_y);
+        void setDestination(int destination_x, int destination_y);
 
     protected:
 
         /**
          * Used to create a path to the current destination
          */
-        bool findPath(double *cost, const int accuracy = 1.0, int step_size = 1);
+        bool findPath(double *cost = NULL, const int accuracy = 1.0 );//, int step_size = 1);
 
         /**
          * Storage for the destination point
          */
         int destination_x, destination_y;
+
+		/**
+		 * Delay for movement cost
+		 */
+		double delay_count;
 
         /**
          * Storage for the path

@@ -14,7 +14,7 @@ CLANLIB_LIBS=$(shell pkg-config --libs ${CLANLIB_PKG_NAMES})
 CLANLIB_INCLUDES=$(shell pkg-config --cflags ${CLANLIB_PKG_NAMES})
 
 CXX=g++ 
-CXXFLAGS=-Wall -ggdb -std=gnu11 ${CLANLIB_INCLUDES}
+CXXFLAGS=-Wall -ggdb ${CLANLIB_INCLUDES}
 
 LIBS=${CLANLIB_LIBS} -lpthread
 

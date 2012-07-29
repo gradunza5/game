@@ -12,32 +12,56 @@
 #include <unordered_map>
 #include <limits>
 
+#define MOVE_SPEED 0.005
+
 using namespace std;
 
-Mover::Mover(Map *map, double startLocationX, double startLocationY, CL_Colorf startColor)
+Mover::Mover(Map *map, int startLocationX, int startLocationY, CL_Colorf startColor)
     : Entity(map, startLocationX, startLocationY, startColor)
 {
 }
 
-void Mover::update(
-        CL_GraphicContext &gc, double cell_width, double cell_height, 
-        double map_origin_x, double map_origin_y)
+void Mover::update()
 {
     // update location here
     if (path.size() > 0)
     {
         // update location here
+		delay_count += MOVE_SPEED;
+		if( delay_count >= (*map)[current_x][current_y].getMoveCost() )
+		{
+			delay_count = 0;
+			
+			CL_Point node = path.front();
+			path.pop();
+
+			current_x = node.x;
+			current_y = node.y;
+		}
     }
     else if (has_destination)
     {
         // calculate path, then update location
+		if( !findPath() )
+		{
+			// can't find a path
+			fprintf(stderr, "Mover: Can't find path from %i, %i to %i, %i\n", current_x, current_y, destination_x, destination_y );
+		}
+		has_destination = false;
+		delay_count = 0;
     }
+	else
+	{
+		// TODO debug
+		setDestination( rand()*map->getWidth()/RAND_MAX, rand()*map->getHeight()/RAND_MAX );
+	}
 
-    Entity::update(gc, cell_width, cell_height, map_origin_x, map_origin_y);
+    Entity::update();
 }
 
-void Mover::setDestination(double destination_x, double destination_y)
+void Mover::setDestination( int destination_x, int destination_y)
 {
+	printf("Mover: Moving to %i, %i\n", destination_x, destination_y);
     this->destination_x = destination_x;
     this->destination_y = destination_y;
 
@@ -55,13 +79,12 @@ bool operator<(const astar_pose2d_t &a, const astar_pose2d_t &b)
 
 bool operator==(const astar_pose2d_t &a, const astar_pose2d_t &b)
 {
-    double eps = 0.05;
-	return fabs(a.x-b.x) < eps && fabs(a.y-b.y) < eps;
+	return a.x == b.x && a.y == b.y;
 }
 
 uint64_t astar_pose2d_hash(const astar_pose2d_t &p)
 {
-	return ( ((int64_t)p.x) << (int64_t)32) | ((int64_t)p.y) ;
+	return ( ((int64_t)p.x) << 32) | ((int64_t)p.y) ;
 }
 
 // node on the map that stores cost and heuristic information
@@ -80,21 +103,21 @@ class BestWeightCompare {
         }
 };
 
-bool Mover::findPath(double *cost, const int accuracy, int step_size)
+bool Mover::findPath(double *cost, const int accuracy ) //, int step_size)
 {
 	//
 	// Define a list of possible successors that we would like to consider
 	//
 	#define ASTAR_NODE_SUCCESSORS 8
 	const astar_node_t successors[ASTAR_NODE_SUCCESSORS] = {
-		{{ step_size,  0        }, step_size},
-		{{-step_size,  0        }, step_size},
-		{{ 0,          step_size}, step_size},
-		{{ 0,         -step_size}, step_size},
-		{{ step_size,  step_size}, sqrt(2*step_size*step_size)},
-		{{ step_size, -step_size}, sqrt(2*step_size*step_size)},
-		{{-step_size,  step_size}, sqrt(2*step_size*step_size)},
-		{{-step_size, -step_size}, sqrt(2*step_size*step_size)},
+		{{ 1,  0}, 1},
+		{{-1,  0}, 1},
+		{{ 0,  1}, 1},
+		{{ 0, -1}, 1},
+		{{ 1,  1}, sqrt(2)},
+		{{ 1, -1}, sqrt(2)},
+		{{-1,  1}, sqrt(2)},
+		{{-1, -1}, sqrt(2)},
 	};
 
 	std::unordered_map<uint64_t, bool> seen; // path that has been evaluated already
@@ -106,8 +129,9 @@ bool Mover::findPath(double *cost, const int accuracy, int step_size)
 
 	const double goal_accuracy = accuracy;
 
-	const astar_pose2d_t init = {current_x, current_y}; // start position node
-	const astar_pose2d_t goal = {destination_x, destination_y}; // goal pose
+	// backwards so path comes out in the right order
+	const astar_pose2d_t init = {destination_x, destination_y}; // goal pose
+	const astar_pose2d_t goal = {current_x, current_y}; // start position node
 
 	// insert first node which is the start pose
 	costs[astar_pose2d_hash(init)] = 0.001;
@@ -133,7 +157,7 @@ bool Mover::findPath(double *cost, const int accuracy, int step_size)
 
 		// found the goal yet?
 		if (head.pose == goal) break;
-		if (goal_accuracy > 0.0 && hypot((double)(goal.x - head.pose.x), (double)(goal.y - head.pose.y)) <= goal_accuracy) break;
+		if (goal_accuracy > 0.0 && hypot((double)(goal.x - head.pose.x), (double)(goal.y - head.pose.y)) < goal_accuracy) break;
 		
 		// mark it as already seen
 		if (seen[astar_pose2d_hash(head.pose)]) continue;
@@ -154,10 +178,10 @@ bool Mover::findPath(double *cost, const int accuracy, int step_size)
 
             unsigned char p = 127;
 
-            if (child.pose.x >= 0 && child.pose.x < map->getWidth() && 
-                    child.pose.y >= 0 && child.pose.y < map->getHeight())
+            if (child.pose.x >= 0 && (size_t)child.pose.x < map->getWidth() && 
+                    child.pose.y >= 0 && (size_t)child.pose.y < map->getHeight())
             {
-                p = map[child.pose.x][child.pose.y]->getMoveCost();
+                p = (*map)[child.pose.x][child.pose.y].getMoveCost();
             }
             else
             {
@@ -203,48 +227,23 @@ bool Mover::findPath(double *cost, const int accuracy, int step_size)
 	// path output
     // add the goal to the path
     path.push(CL_Point(head.pose.x, head.pose.y));
+	//printf("\t%i, %i\n", head.pose.x, head.pose.y);
 
     // get the parent of the head node
     astar_pose2d_t next = parents[astar_pose2d_hash(head.pose)];
 
     for (;;)
     {
+        // we're done if the next node is the start node
+        if (next.x == init.x && next.y == init.y ) break;
+
         // push the current node
         path.push(CL_Point(next.x, next.y));
+		//printf("\t%i, %i\n", next.x, next.y);
 
         // get the parent of the current node
         next = parents[astar_pose2d_hash(next)];
-
-        // we're done if the next node is the start node
-        if (next.x == current_x && next.y == current_y) break;
     }
 
     return true;
-}
-
-double Mover::getDistanceSquared(double originX, double originY, double destinationX, double destinationY)
-{
-    double dx = originX - destinationX;
-    double dy = originY - destinationY;
-
-    return (dx * dx) + (dy * dy);
-}
-
-vector<pair<double, double> > Mover::neighbors()
-{
-    vector<pair<double, double> > retVector;
-
-    retVector.push_back(make_pair(current_x - 1, current_y + 1));
-    retVector.push_back(make_pair(current_x - 0, current_y + 1));
-    retVector.push_back(make_pair(current_x + 1, current_y + 1));
-
-    retVector.push_back(make_pair(current_x - 1, current_y + 0));
-    //retVector.push_back(make_pair(current_x - 0, current_y + 0)); not added, current point
-    retVector.push_back(make_pair(current_x + 1, current_y + 0));
-
-    retVector.push_back(make_pair(current_x - 1, current_y - 1));
-    retVector.push_back(make_pair(current_x - 0, current_y - 1));
-    retVector.push_back(make_pair(current_x + 1, current_y - 1));
-
-    return retVector;
 }

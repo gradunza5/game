@@ -20,7 +20,7 @@ class Entity
          *
          * creates a new entity on the map at the specified location
          */
-        Entity(Map *map, double startLocationX, double startLocationY, CL_Colorf startColor = CL_Colorf::hotpink);
+        Entity(Map *map, int startLocationX, int startLocationY, CL_Colorf startColor = CL_Colorf::hotpink);
 
         /**
          * ~Entity()
@@ -34,21 +34,28 @@ class Entity
          *
          * @return the x value of this Entity's location
          */
-        double getCurrentX() {return current_x;};
+        int getCurrentX() {return current_x;};
 
         /**
          * getYLocation()
          *
          * @return the Y value of this Entity's location
          */
-        double getCurrentY() {return current_y;};
+        int getCurrentY() {return current_y;};
 
         /**
          * update()
          *
-         * updates and draws the Entity
+         * updates the Entity
          */
-        virtual void update(CL_GraphicContext &gc, double cell_width, double cell_height, double map_origin_x, double map_origin_y);
+        virtual void update();
+
+        /**
+         * draw(gc)
+         *
+         * Draws the entity
+         */
+        void draw(CL_GraphicContext &gc, double cell_width, double cell_height, double map_origin_x, double map_origin_y);
 
         /**
          * setColor(r, g, b)
@@ -72,12 +79,6 @@ class Entity
         // color storage
         CL_Colorf entity_color;
 
-        /**
-         * draw(gc)
-         *
-         * Draws the entity
-         */
-        void draw(CL_GraphicContext &gc, double cell_width, double cell_height, double map_origin_x, double map_origin_y);
 };
 
 #endif

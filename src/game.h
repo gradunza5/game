@@ -75,7 +75,7 @@ class Game
 		static CL_Sprite tileset;
 
         // list of entities
-        std::vector<Entity> entities;
+        std::vector<Entity*> entities;
 
 		// slots
 		CL_Slot keyboard_press_slot;
