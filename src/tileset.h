@@ -9,14 +9,18 @@
 
 #define TILESET_SIZE	(64)
 
+#define ROBOT_NS_ID	(0)
+#define ROBOT_EW_ID	(1)
+
 // single tile types (index in tileset)
-#define GRASS_ID	(0)
-#define LAVA_ID		(1)
-#define EMPTY_ID	(0)
+#define GRASS_ID	(2)
+#define EMPTY_ID	(2)
+#define LAVA_ID		(3)
 
 // multi tile types -(start_index)
-#define PATH_ID		(-2)
-#define WALL_ID		(-18)
+#define PATH_ID		(-4)
+#define WALL_ID		(-20)
+#define WATER_ID	(-36)
 
 // Mask for multi visual tiles
 #define MULTI_N	(8)

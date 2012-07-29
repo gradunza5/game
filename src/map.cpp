@@ -102,10 +102,10 @@ int Map::find_neighbors( int type, int x, int y )
 	int index = -type;
 
 	// check N, S, E, W
-	if( map[x][y-1].getType() == type ) index += MULTI_N;
-	if( map[x][y+1].getType() == type ) index += MULTI_S;
-	if( map[x+1][y].getType() == type ) index += MULTI_E;
-	if( map[x-1][y].getType() == type ) index += MULTI_W;
+	if( y > 0 		&& map[x][y-1].getType() == type ) index += MULTI_N;
+	if( y < height 	&& map[x][y+1].getType() == type ) index += MULTI_S;
+	if( x < width	&& map[x+1][y].getType() == type ) index += MULTI_E;
+	if( x > 0		&& map[x-1][y].getType() == type ) index += MULTI_W;
 
 	return index;
 }

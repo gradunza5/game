@@ -17,8 +17,9 @@ const Cell::cell_type Cell::Types[] =
 	//			Name	id			move_cost
 	CELL_TYPE(	Grass,	GRASS_ID,	 5),
 	CELL_TYPE(	Path,	PATH_ID,	 1),
-	CELL_TYPE(	Lava,	LAVA_ID,	-1),
 	CELL_TYPE(	Wall,	WALL_ID,	-1),
+	CELL_TYPE(	Water,	WATER_ID,	15),
+	CELL_TYPE(	Lava,	LAVA_ID,	-1),
 	CELL_TYPE(	Empty,	EMPTY_ID,	 10)
 };
 const size_t Cell::num_cell_types = sizeof( Cell::Types ) / sizeof( cell_type );
