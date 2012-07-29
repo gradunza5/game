@@ -116,6 +116,12 @@ void Mover::update()
 			}
 			current_x += dx;
 			current_y += dy;
+
+			if( current_x < 0 ) current_x = 0;
+			if( current_y < 0 ) current_y = 0;
+
+			if( current_x > map->getWidth()-1 )  current_x = map->getWidth()-1;
+			if( current_y > map->getHeight()-1 ) current_y = map->getHeight()-1;
 		}
 			
 	}
@@ -303,7 +309,7 @@ bool Mover::findPath(double *cost, const int accuracy ) //, int step_size)
     {
         // push the current node
         path.push(CL_Point(next.x, next.y));
-		printf("\t%i, %i\n", next.x, next.y);
+//		printf("\t%i, %i\n", next.x, next.y);
 
         // we're done if the next node is the start node
         if (next.x == init.x && next.y == init.y ) break;
@@ -311,7 +317,6 @@ bool Mover::findPath(double *cost, const int accuracy ) //, int step_size)
         // get the parent of the current node
         next = parents[astar_pose2d_hash(next)];
     }
-	printf("\n");
 
     return true;
 }
