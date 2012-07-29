@@ -63,7 +63,7 @@ void Map::draw( CL_GraphicContext &gc, double origin_x, double origin_y, double 
 			if( y_pos > window_height ) break;		// beyond end of window, not visible
 
 			// determine the tileset type
-			int cell_type = map[i][j].getType();
+			int cell_type = map[i][j].getBuildingType();
 
 			if( cell_type < 0 )
 				cell_type = find_neighbors(cell_type, i, j);
@@ -102,10 +102,10 @@ int Map::find_neighbors( int type, int x, int y )
 	int index = -type;
 
 	// check N, S, E, W
-	if( y > 0 		&& map[x][y-1].getType() == type ) index += MULTI_N;
-	if( y < height 	&& map[x][y+1].getType() == type ) index += MULTI_S;
-	if( x < width	&& map[x+1][y].getType() == type ) index += MULTI_E;
-	if( x > 0		&& map[x-1][y].getType() == type ) index += MULTI_W;
+	if( y > 0 				&& map[x][y-1].getBuildingType() == type ) index += MULTI_N;
+	if( (size_t)y < height 	&& map[x][y+1].getBuildingType() == type ) index += MULTI_S;
+	if( (size_t)x < width	&& map[x+1][y].getBuildingType() == type ) index += MULTI_E;
+	if( x > 0				&& map[x-1][y].getBuildingType() == type ) index += MULTI_W;
 
 	return index;
 }

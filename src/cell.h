@@ -19,6 +19,7 @@ class Cell
 			const std::string name;
 			const int type;
 			const double move_cost;
+			const double build_cost;
 		} cell_type;
 
 		static const cell_type Types[];
@@ -32,18 +33,28 @@ class Cell
 		Cell(int id = 0);
 
 		/*
-		 * getId()
+		 * getBaseId()
 		 *
-		 * Get the Type of this Cell
+		 * Get the base type of this Cell
 		 */
-		int getId() { return id; }
+		int getBaseId() { return base_id; }
 
 		/*
-		 * setId(id)
+		 * setBaseId(id)
 		 * 
-		 * Change the type of this cell
+		 * Change the base type of this cell
 		 */
-		void setId( int id );
+		void setBaseId( int id );
+
+		/**
+		 * Get the type of the improvement to this cell
+		 */
+		int getBuildingId() { return improve_id; }
+
+		/**
+		 * Set the type of the improvement in the cell
+		 */
+		void setBuildingId( int id );
 
 		/*
 		 * draw(gc)
@@ -53,16 +64,33 @@ class Cell
 		void draw( CL_GraphicContext &gc, double width, double height, int idx );
 
 		/*
-		 * getType()
-		 *
-		 * return the cell type
+		 * return the cell base type
 		 */
-		int getType() { return Cell::Types[id].type; }
+		int getBaseType() { return Cell::Types[base_id].type; }
+
+		/**
+		 * Does this cell have a building
+		 */
+		bool hasBuilding() { return improve_id != -1; }
+		/*
+		 * return the cell improvement type
+		 */
+		int getBuildingType() { return improve_id == -1 ? 0 : Cell::Types[improve_id].type; }
 
 		/*
 		 * Get the cost of movement through this cell
 		 */
-		double getMoveCost() { return Cell::Types[id].move_cost; }
+		double getMoveCost();
+
+		/*
+		 * Contribute to building this cell
+		 */
+		void build( double speed );
+
+		/*
+		 * Is this cell built?
+		 */
+		bool isBuilt() { return improve_id < 0 || build_amount >= Cell::Types[improve_id].build_cost; }
 
 		/*
 		 * TODO: More functionality
@@ -71,7 +99,10 @@ class Cell
 
 	private:
 		// The type of this cell
-		int id;
+		int base_id, improve_id;
+
+		// the amount built this cell is
+		double build_amount;
 };
 
 #endif

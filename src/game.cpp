@@ -11,8 +11,8 @@
 #define WIN_WIDTH	1000
 #define WIN_HEIGHT	1000
 
-#define MAP_WIDTH	100
-#define MAP_HEIGHT	100
+#define MAP_WIDTH	50
+#define MAP_HEIGHT	50
 
 #define CELL_MIN_SIZE	64
 
@@ -152,7 +152,7 @@ void Game::updateLogic()
 		{
 			map_origin_x+=SCROLL_SPEED;
 		}
-		if( mouse_x > frame_geom.right - SCROLL_BORDER_WIDTH && map_origin_x > (double)window_width/cell_width - map->getWidth() * cell_width )
+		if( mouse_x > frame_geom.right - SCROLL_BORDER_WIDTH && map_origin_x > (double)window_width - map->getWidth() * cell_width )
 		{
 			map_origin_x-=SCROLL_SPEED;
 		}
@@ -161,7 +161,7 @@ void Game::updateLogic()
 		{
 			map_origin_y+=SCROLL_SPEED;
 		}
-		if( mouse_y > frame_geom.bottom - SCROLL_BORDER_WIDTH && map_origin_y > (double)window_height/cell_height - map->getHeight() * cell_height )
+		if( mouse_y > frame_geom.bottom - SCROLL_BORDER_WIDTH && map_origin_y > (double)window_height - map->getHeight() * cell_height )
 		{
 			map_origin_y-=SCROLL_SPEED;
 		}
@@ -183,12 +183,26 @@ void Game::updateLogic()
 		// is the mouse button down, while inside the game frame, and the cell is a different type
 		if( ic.get_mouse().get_keycode( CL_MOUSE_LEFT ) &&
 			cursor_pos_x >= 0 && (size_t)cursor_pos_x < map->getWidth() &&
-			cursor_pos_y >= 0 && (size_t)cursor_pos_y < map->getHeight() &&
-			(*map)[cursor_pos_x][cursor_pos_y].getId() != cur_cell_id )
+			cursor_pos_y >= 0 && (size_t)cursor_pos_y < map->getHeight() )
 		{
-			// cell type change
-			// TODO eventually take into account cost to "build" cell
-			(*map)[cursor_pos_x][cursor_pos_y].setId( cur_cell_id );
+			if( Cell::Types[cur_cell_id].build_cost == 0 )
+			{
+				if ( (*map)[cursor_pos_x][cursor_pos_y].getBaseId() != cur_cell_id )
+				{
+					// cell type change
+					// TODO eventually take into account cost to "build" cell
+					(*map)[cursor_pos_x][cursor_pos_y].setBaseId( cur_cell_id );
+				}
+			}
+			else
+			{
+				if ( (*map)[cursor_pos_x][cursor_pos_y].getBuildingId() != cur_cell_id )
+				{
+					// cell type change
+					// TODO eventually take into account cost to "build" cell
+					(*map)[cursor_pos_x][cursor_pos_y].setBuildingId( cur_cell_id );
+				}
+			}
 		}
 
 	}
