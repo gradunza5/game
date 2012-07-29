@@ -13,12 +13,18 @@
 #include <limits>
 
 #define MOVE_SPEED 0.005
+#define BUILD_SPEED	0.01
 
 using namespace std;
 
 Mover::Mover(Map *map, int startLocationX, int startLocationY, CL_Colorf startColor)
     : Entity(map, startLocationX, startLocationY, startColor)
 {
+}
+
+bool Mover::isIdle()
+{
+	return !( has_destination || (path.size() > 0) ) && map->getCell( current_x, current_y )->isBuilt();
 }
 
 void Mover::update()
@@ -28,14 +34,14 @@ void Mover::update()
     {
         // update location here
 		delay_count += MOVE_SPEED;
-		if( delay_count >= (*map)[current_x][current_y].getMoveCost() )
+		if( delay_count >= map->getCell(current_x, current_y)->getMoveCost() )
 		{
 			delay_count = 0;
 			
 			CL_Point node = path.front();
 			path.pop();
 
-			if( (*map)[node.x][node.y].getMoveCost() > 0 )
+			if( map->getCell(node.x, node.y)->getMoveCost() > 0 )
 			{
 				current_x = node.x;
 				current_y = node.y;
@@ -61,8 +67,57 @@ void Mover::update()
     }
 	else
 	{
-		// TODO debug
-		setDestination( rand()*map->getWidth()/RAND_MAX, rand()*map->getHeight()/RAND_MAX );
+		// no path, build the cell if we can
+		if( !map->getCell( current_x, current_y )->isBuilt() )
+		{
+			map->buildCell( current_x, current_y, BUILD_SPEED );
+		}
+
+		// is the cell done, and is it an impassible cell?
+		if( map->getCell( current_x, current_y )->isBuilt() 
+				&& map->getCell( current_x, current_y )->getMoveCost() < 0 )
+		{
+			int dx, dy;
+			// pick a random cell next to us to move to
+			switch( rand() % 8 )
+			{
+				case 0:
+					dx = 1;
+					dy = 1;
+					break;
+				case 1:
+					dx = 1;
+					dy = 0;
+					break;
+				case 2:
+					dx = 1;
+					dy = -1;
+					break;
+				case 3:
+					dx = 0;
+					dy = -1;
+					break;
+				case 4:
+					dx = -1;
+					dy = -1;
+					break;
+				case 5:
+					dx = -1;
+					dy = 0;
+					break;
+				case 6:
+					dx = -1;
+					dy = 1;
+					break;
+				case 7:
+					dx = 0;
+					dy = 1;
+					break;
+			}
+			current_x += dx;
+			current_y += dy;
+		}
+			
 	}
 
     Entity::update();
@@ -190,7 +245,7 @@ bool Mover::findPath(double *cost, const int accuracy ) //, int step_size)
             if (child.pose.x >= 0 && (size_t)child.pose.x < map->getWidth() && 
                     child.pose.y >= 0 && (size_t)child.pose.y < map->getHeight())
             {
-                p = (*map)[child.pose.x][child.pose.y].getMoveCost();
+                p = map->getCell(child.pose.x, child.pose.y)->getMoveCost();
             }
             else
             {
@@ -238,7 +293,7 @@ bool Mover::findPath(double *cost, const int accuracy ) //, int step_size)
 
 	// path output
     // add the goal to the path
-    path.push(CL_Point(head.pose.x, head.pose.y));
+    //path.push(CL_Point(head.pose.x, head.pose.y));
 	//printf("\t%i, %i\n", head.pose.x, head.pose.y);
 
     // get the parent of the head node
@@ -246,16 +301,17 @@ bool Mover::findPath(double *cost, const int accuracy ) //, int step_size)
 
     for (;;)
     {
-        // we're done if the next node is the start node
-        if (next.x == init.x && next.y == init.y ) break;
-
         // push the current node
         path.push(CL_Point(next.x, next.y));
-		//printf("\t%i, %i\n", next.x, next.y);
+		printf("\t%i, %i\n", next.x, next.y);
+
+        // we're done if the next node is the start node
+        if (next.x == init.x && next.y == init.y ) break;
 
         // get the parent of the current node
         next = parents[astar_pose2d_hash(next)];
     }
+	printf("\n");
 
     return true;
 }

@@ -65,8 +65,7 @@ class Entity
         void setColor(float r, float g, float b);
         void setColor(CL_Colorf newColor);
 
-        //TODO: Whatever else
-        //TODO: Pathfinding?
+		virtual bool isIdle() = 0;
 
     protected:
         // The map this entity is on

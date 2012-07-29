@@ -8,6 +8,9 @@
 
 #include "map.h"
 #include "tileset.h"
+#include "mover.h"
+
+#include <algorithm>
 
 /*
  * Map(w, h)
@@ -36,6 +39,20 @@ Map::~Map()
 		delete[] map[i];
 	}
 	delete[] map;
+}
+
+/*
+ * process cell changes
+ */
+void Map::update()
+{
+	for( auto iter = modified_list.begin(); iter != modified_list.end(); iter++ )
+	{
+		if( getCell(iter->x, iter->y)->isBuilt() )
+		{
+			iter = modified_list.erase(iter) - 1;
+		}
+	}
 }
 
 /*
@@ -80,18 +97,6 @@ void Map::draw( CL_GraphicContext &gc, double origin_x, double origin_y, double 
 }
 
 /*
- * operator[]
- *
- * Get the row out of the map
- */
-Cell* Map::operator[](size_t i)
-{
-	if( i < width )
-		return map[i];
-	return NULL;
-}
-
-/*
  * find_neighbors
  *
  * Find the types of the cells neighboring this cell
@@ -109,3 +114,81 @@ int Map::find_neighbors( int type, int x, int y )
 
 	return index;
 }
+
+/**
+ * Get the specified cell out of the map
+ */
+const Cell* Map::getCell( size_t x, size_t y )
+{
+	if( x < width && y < height )
+		return &map[x][y];
+	else
+		return NULL;
+}
+
+/**
+ * Sets the base type of this cell
+ */
+void Map::setCellBase( size_t x, size_t y, int id )
+{
+	if( x < width && y < height )
+	{
+		map[x][y].setBaseId(id);
+
+		modified_list.push_back( CL_Point(x,y) );
+	}
+}
+
+/**
+ * Sets the building type of this cell
+ */
+void Map::setCellBuilding( size_t x, size_t y, int id )
+{
+	if( x < width && y < height )
+	{
+		map[x][y].setBuildingId(id);
+
+		modified_list.push_back( CL_Point(x,y) );
+	}
+}
+
+/*
+ * Build the cell
+ */
+void Map::buildCell( size_t x, size_t y, double speed )
+{
+	if( x < width && y < height )
+	{
+		map[x][y].build( speed );
+
+		if( map[x][y].isBuilt() )
+		{
+			CL_Point p(x,y);
+			modified_list.erase( std::find(modified_list.begin(), modified_list.end(), p ));
+		}
+	}
+}
+
+/*
+ * command robots to perform changes to cells
+ */
+void Map::processChanges( std::vector<Mover*> &robots )
+{
+	if( !hasChanges() ) return;
+
+	auto iter = modified_list.begin();
+
+	for( Mover *m : robots )
+	{
+		if( m->isIdle() )
+		{
+			m->setDestination( iter->x, iter->y );
+			iter++;
+
+			if( iter == modified_list.end() ) 
+				return;
+		}
+
+	}
+}
+

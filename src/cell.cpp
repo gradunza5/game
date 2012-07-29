@@ -65,7 +65,7 @@ void Cell::setBuildingId( int id )
  *
  * Draw this cell
  */
-void Cell::draw( CL_GraphicContext &gc, double width, double height, int idx )
+void Cell::draw( CL_GraphicContext &gc, double width, double height, int idx ) const
 {
 	double build_percent = (build_amount / Cell::Types[improve_id].build_cost) * ( 1.0 - MIN_BUILD_ALPHA ) + MIN_BUILD_ALPHA;
 
@@ -92,8 +92,11 @@ void Cell::build( double speed )
 		build_amount += speed;
 }
 
-double Cell::getMoveCost() 
+double Cell::getMoveCost() const
 { 
-	if( improve_id == 0x3ff00000 ) printf("WTF\n");
-	return Cell::Types[improve_id == -1 ? base_id : improve_id].move_cost; 
+	int id = base_id;
+	if( improve_id != -1 && isBuilt() )
+		id = improve_id;
+
+	return Cell::Types[id].move_cost; 
 }

@@ -37,7 +37,7 @@ class Cell
 		 *
 		 * Get the base type of this Cell
 		 */
-		int getBaseId() { return base_id; }
+		int getBaseId() const { return base_id; }
 
 		/*
 		 * setBaseId(id)
@@ -49,7 +49,7 @@ class Cell
 		/**
 		 * Get the type of the improvement to this cell
 		 */
-		int getBuildingId() { return improve_id; }
+		int getBuildingId() const { return improve_id; }
 
 		/**
 		 * Set the type of the improvement in the cell
@@ -61,26 +61,26 @@ class Cell
 		 *
 		 * Draw this cell
 		 */
-		void draw( CL_GraphicContext &gc, double width, double height, int idx );
+		void draw( CL_GraphicContext &gc, double width, double height, int idx ) const ;
 
 		/*
 		 * return the cell base type
 		 */
-		int getBaseType() { return Cell::Types[base_id].type; }
+		int getBaseType() const { return Cell::Types[base_id].type; }
 
 		/**
 		 * Does this cell have a building
 		 */
-		bool hasBuilding() { return improve_id != -1; }
+		bool hasBuilding() const { return improve_id != -1; }
 		/*
 		 * return the cell improvement type
 		 */
-		int getBuildingType() { return improve_id == -1 ? 0 : Cell::Types[improve_id].type; }
+		int getBuildingType() const { return improve_id == -1 ? 0 : Cell::Types[improve_id].type; }
 
 		/*
 		 * Get the cost of movement through this cell
 		 */
-		double getMoveCost();
+		double getMoveCost() const;
 
 		/*
 		 * Contribute to building this cell
@@ -90,7 +90,7 @@ class Cell
 		/*
 		 * Is this cell built?
 		 */
-		bool isBuilt() { return improve_id < 0 || build_amount >= Cell::Types[improve_id].build_cost; }
+		bool isBuilt() const { return improve_id == -1 || build_amount >= Cell::Types[improve_id].build_cost; }
 
 		/*
 		 * TODO: More functionality

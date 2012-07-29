@@ -77,7 +77,7 @@ Game::Game( )
     // TODO: remove this
     // create some test entities
     Mover *m = new Mover(map, 10, 10);
-    entities.push_back(m);
+    robots.push_back(m);
 
 	// setup input
 	ic = top_window->get_ic();
@@ -187,29 +187,36 @@ void Game::updateLogic()
 		{
 			if( Cell::Types[cur_cell_id].build_cost == 0 )
 			{
-				if ( (*map)[cursor_pos_x][cursor_pos_y].getBaseId() != cur_cell_id )
+				if ( map->getCell(cursor_pos_x, cursor_pos_y)->getBaseId() != cur_cell_id )
 				{
 					// cell type change
 					// TODO eventually take into account cost to "build" cell
-					(*map)[cursor_pos_x][cursor_pos_y].setBaseId( cur_cell_id );
+					map->setCellBase(cursor_pos_x, cursor_pos_y, cur_cell_id );
 				}
 			}
 			else
 			{
-				if ( (*map)[cursor_pos_x][cursor_pos_y].getBuildingId() != cur_cell_id )
+				if ( map->getCell(cursor_pos_x, cursor_pos_y)->getBuildingId() != cur_cell_id )
 				{
 					// cell type change
 					// TODO eventually take into account cost to "build" cell
-					(*map)[cursor_pos_x][cursor_pos_y].setBuildingId( cur_cell_id );
+					map->setCellBuilding(cursor_pos_x, cursor_pos_y, cur_cell_id );
 				}
 			}
 		}
 
 	}
 
-	for( Entity *e : entities )
+	map->update();
+
+	if( map->hasChanges() )
 	{
-		e->update();
+		map->processChanges( robots );
+	}
+
+	for( Mover *r : robots )
+	{
+		r->update();
 	}
 }
 
@@ -245,12 +252,9 @@ void Game::redraw( CL_GraphicContext &gc )
 	}
 
     // update/redraw any entities on the board
-    if (entities.size() != 0)
-    {
-        for (size_t i = 0; i < entities.size(); i++)
-        {
-            entities[i]->draw(gc, cell_width, cell_height, map_origin_x, map_origin_y);
-        }
+	for( Mover *r : robots )
+	{
+		r->draw(gc, cell_width, cell_height, map_origin_x, map_origin_y);
     }
 
 }

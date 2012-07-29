@@ -38,6 +38,11 @@ class Mover : public Entity
          */
         void setDestination(int destination_x, int destination_y);
 
+		/**
+		 * Returns true if this mover has no current path to follow
+		 */
+		virtual bool isIdle();
+
     protected:
 
         /**
