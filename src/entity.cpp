@@ -42,7 +42,7 @@ void Entity::draw(CL_GraphicContext &gc, double cell_width, double cell_height, 
     gc.set_translate(current_x*cell_width + map_origin_x, current_y*cell_height + map_origin_y, 0);
 	CL_Sprite &sprite( Game::get_tileset() );
 
-	sprite.set_frame( ROBOT_ID );
+	sprite.set_frame( ROBOT_NS_ID );
 	sprite.set_scale( cell_width/TILESET_SIZE, cell_height/TILESET_SIZE );
 
 	sprite.draw( gc, 0, 0 );
