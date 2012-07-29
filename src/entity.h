@@ -48,7 +48,7 @@ class Entity
          *
          * updates and draws the Entity
          */
-        void update(CL_GraphicContext &gc, double cell_width, double cell_height, double map_origin_x, double map_origin_y);
+        virtual void update(CL_GraphicContext &gc, double cell_width, double cell_height, double map_origin_x, double map_origin_y);
 
         /**
          * setColor(r, g, b)
@@ -61,7 +61,7 @@ class Entity
         //TODO: Whatever else
         //TODO: Pathfinding?
 
-    private:
+    protected:
         // The map this entity is on
         Map *map;
 

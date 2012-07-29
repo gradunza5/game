@@ -1,4 +1,5 @@
 .*.swp
+.exrc
 
 # Compiled Object files
 *.slo
