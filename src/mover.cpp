@@ -35,8 +35,17 @@ void Mover::update()
 			CL_Point node = path.front();
 			path.pop();
 
-			current_x = node.x;
-			current_y = node.y;
+			if( (*map)[node.x][node.y].getMoveCost() > 0 )
+			{
+				current_x = node.x;
+				current_y = node.y;
+			}
+			else
+			{
+				// map changed, find new path around
+				findPath();
+			}
+
 		}
     }
     else if (has_destination)
@@ -223,6 +232,9 @@ bool Mover::findPath(double *cost, const int accuracy ) //, int step_size)
 
 	// cost output
 	if (cost) *cost = costs[astar_pose2d_hash(head.pose)];
+
+	// clear out path, queue, y u no has .clear()
+	while( path.size() ) path.pop();
 
 	// path output
     // add the goal to the path
