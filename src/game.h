@@ -14,8 +14,8 @@
 #include <ClanLib/gl.h>
 #include <ClanLib/gui.h>
 
-#include "map.h"
-#include "entity.h"
+#include "map/map.h"
+#include "entity/entity.h"
 
 class GameWindow;
 

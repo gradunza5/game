@@ -6,9 +6,9 @@
  * Representation of the map, 2D-array of cells
  */
 
-#include "map.h"
-#include "tileset.h"
-#include "mover.h"
+#include "map/map.h"
+#include "map/tileset.h"
+#include "entity/mover.h"
 
 #include <algorithm>
 

@@ -120,8 +120,8 @@ void Mover::update()
 			if( current_x < 0 ) current_x = 0;
 			if( current_y < 0 ) current_y = 0;
 
-			if( current_x > map->getWidth()-1 )  current_x = map->getWidth()-1;
-			if( current_y > map->getHeight()-1 ) current_y = map->getHeight()-1;
+			if( current_x > (int)map->getWidth()-1 )  current_x = map->getWidth()-1;
+			if( current_y > (int)map->getHeight()-1 ) current_y = map->getHeight()-1;
 		}
 			
 	}
@@ -131,7 +131,7 @@ void Mover::update()
 
 void Mover::setDestination( int destination_x, int destination_y)
 {
-	printf("Mover: Moving to %i, %i\n", destination_x, destination_y);
+	//printf("Mover: Moving to %i, %i\n", destination_x, destination_y);
     this->destination_x = destination_x;
     this->destination_y = destination_y;
 

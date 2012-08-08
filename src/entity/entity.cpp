@@ -6,9 +6,9 @@
  * Implementation of base class for all non-board objects
  */
 
-#include "entity.h"
+#include "entity/entity.h"
 #include "game.h"
-#include "tileset.h"
+#include "map/tileset.h"
 
 /**
  * Entity(map, x, y, color)

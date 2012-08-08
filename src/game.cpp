@@ -6,7 +6,7 @@
  */
 #include "game.h"
 #include "game_window.h"
-#include "mover.h"
+#include "entity/mover.h"
 
 #define WIN_WIDTH	1000
 #define WIN_HEIGHT	1000

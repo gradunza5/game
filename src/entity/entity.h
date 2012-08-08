@@ -9,7 +9,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "map.h"
+#include "map/map.h"
 #include <ClanLib/display.h>
 
 class Entity
